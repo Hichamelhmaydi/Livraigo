@@ -1,4 +1,4 @@
-package com.example.livraigo;
+package com.livraigo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

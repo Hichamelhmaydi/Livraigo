@@ -1,4 +1,4 @@
-package com.example.livraigo;
+package com.livraigo;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
