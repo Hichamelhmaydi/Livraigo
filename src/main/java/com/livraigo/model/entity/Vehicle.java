@@ -4,8 +4,6 @@ import com.livraigo.model.enums.VehicleType;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "vehicles")
@@ -19,24 +17,46 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "La plaque d'immatriculation est obligatoire")
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String licensePlate;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VehicleType type;
     
-    @DecimalMin(value = "0.1", message = "La capacité de poids doit être supérieure à 0")
     @Column(nullable = false)
-    private Double maxWeight;
+    private Double maxWeight; 
     
-    @DecimalMin(value = "0.1", message = "La capacité de volume doit être supérieure à 0")
     @Column(nullable = false)
-    private Double maxVolume;
+    private Double maxVolume; 
     
     @Column(nullable = false)
     private Integer maxDeliveries;
     
     private Boolean available;
+    
+    @PrePersist
+    @PreUpdate
+    public void setVehicleConstraints() {
+        switch (this.type) {
+            case BIKE:
+                this.maxWeight = 50.0;
+                this.maxVolume = 0.5;
+                this.maxDeliveries = 15;
+                break;
+            case VAN:
+                this.maxWeight = 1000.0;
+                this.maxVolume = 8.0;
+                this.maxDeliveries = 50;
+                break;
+            case TRUCK:
+                this.maxWeight = 5000.0;
+                this.maxVolume = 40.0;
+                this.maxDeliveries = 100;
+                break;
+        }
+        if (this.available == null) {
+            this.available = true;
+        }
+    }
 }
