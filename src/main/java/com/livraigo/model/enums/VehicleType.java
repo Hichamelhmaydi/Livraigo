@@ -1,5 +1,7 @@
 package com.livraigo.model.enums;
 
-public class VehicleType {
-
+public enum VehicleType {
+    BIKE,
+    VAN,
+    TRUCK
 }
