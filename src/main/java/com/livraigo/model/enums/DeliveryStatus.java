@@ -1,5 +1,8 @@
 package com.livraigo.model.enums;
 
-public class DeliveryStatus {
-
+public enum DeliveryStatus {
+    PENDING,
+    IN_TRANSIT,
+    DELIVERED,
+    FAILED
 }
