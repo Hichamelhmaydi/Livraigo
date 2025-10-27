@@ -1,4 +1,4 @@
-package com.livraigo.model.enums;
+package com.livraigo.model.entity.enums;
 
 public enum VehicleType {
     BIKE,

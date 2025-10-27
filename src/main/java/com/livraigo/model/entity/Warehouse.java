@@ -3,7 +3,6 @@ package com.livraigo.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 
 @Entity
@@ -18,11 +17,9 @@ public class Warehouse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "Le nom est obligatoire")
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
     
-    @NotNull(message = "L'adresse est obligatoire")
     @Column(nullable = false)
     private String address;
     

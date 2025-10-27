@@ -1,10 +1,9 @@
 package com.livraigo.model.entity;
 
-import com.livraigo.model.enums.OptimizationAlgorithm;
+import com.livraigo.model.entity.enums.OptimizationAlgorithm;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,9 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "La date est obligatoire")
+    @Column(nullable = false)
+    private String name;
+    
     @Column(nullable = false)
     private LocalDate date;
     
@@ -37,9 +38,9 @@ public class Tour {
     @Column(nullable = false)
     private OptimizationAlgorithm algorithm;
     
-    private Double totalDistance;
+    private Double totalDistance; 
     
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("order ASC")
     @Builder.Default
     private List<Delivery> deliveries = new ArrayList<>();

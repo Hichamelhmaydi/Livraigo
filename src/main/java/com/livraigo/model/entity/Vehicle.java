@@ -1,6 +1,6 @@
 package com.livraigo.model.entity;
 
-import com.livraigo.model.enums.VehicleType;
+import com.livraigo.model.entity.enums.VehicleType;
 import lombok.*;
 
 import javax.persistence.*;
