@@ -25,10 +25,10 @@ public class Vehicle {
     private VehicleType type;
     
     @Column(nullable = false)
-    private Double maxWeight; 
+    private Double maxWeight;
     
     @Column(nullable = false)
-    private Double maxVolume; 
+    private Double maxVolume;
     
     @Column(nullable = false)
     private Integer maxDeliveries;

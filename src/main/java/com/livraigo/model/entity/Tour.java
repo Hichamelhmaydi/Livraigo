@@ -38,7 +38,7 @@ public class Tour {
     @Column(nullable = false)
     private OptimizationAlgorithm algorithm;
     
-    private Double totalDistance; 
+    private Double totalDistance;
     
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("order ASC")

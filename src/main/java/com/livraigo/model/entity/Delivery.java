@@ -28,7 +28,7 @@ public class Delivery {
     private Double longitude;
     
     @Column(nullable = false)
-    private Double weight; 
+    private Double weight;
     
     @Column(nullable = false)
     private Double volume;
