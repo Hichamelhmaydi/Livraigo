@@ -1,7 +1,6 @@
 package com.livraigo.dto;
 
 import com.livraigo.model.entity.enums.VehicleType;
-
 import lombok.Data;
 
 @Data

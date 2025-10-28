@@ -1,9 +1,8 @@
 package com.livraigo.dto;
 
+import com.livraigo.model.entity.enums.DeliveryStatus;
 import lombok.Data;
 import java.time.LocalTime;
-
-import com.livraigo.model.entity.enums.DeliveryStatus;
 
 @Data
 public class DeliveryRequestDTO {
