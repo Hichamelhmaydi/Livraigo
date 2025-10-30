@@ -34,27 +34,31 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
         
         savingsList.sort((s1, s2) -> Double.compare(s2.savings, s1.savings));
         
-        Map<Delivery, Route> deliveryToRoute = new HashMap<>();
+        List<Route> routes = new ArrayList<>();
         for (Delivery delivery : deliveries) {
-            Route route = new Route(delivery);
-            deliveryToRoute.put(delivery, route);
+            Route route = new Route();
+            route.addDelivery(delivery);
+            routes.add(route);
         }
         
         for (Savings savings : savingsList) {
-            Route route1 = deliveryToRoute.get(savings.delivery1);
-            Route route2 = deliveryToRoute.get(savings.delivery2);
+            Route route1 = findRouteContaining(routes, savings.delivery1);
+            Route route2 = findRouteContaining(routes, savings.delivery2);
             
-            if (route1 != route2 && canMerge(route1, route2)) {
-                mergeRoutes(route1, route2);
-                updateRouteMapping(deliveryToRoute, route1, route2);
+            if (route1 != null && route2 != null && route1 != route2) {
+                if (canMerge(route1, route2)) {
+                    mergeRoutes(route1, route2);
+                    routes.remove(route2);
+                }
             }
         }
         
-        Route finalRoute = deliveryToRoute.values().iterator().next();
-        List<Delivery> optimizedRoute = buildRouteFromWarehouse(warehouse, finalRoute);
-        
-        logger.info("Clarke & Wright optimization completed. Route length: {}", optimizedRoute.size());
-        return optimizedRoute;
+        if (routes.size() == 1) {
+            return routes.get(0).getDeliveries();
+        } else {
+            logger.warn("Multiple routes found after optimization: {}", routes.size());
+            return new ArrayList<>(deliveries);
+        }
     }
     
     private List<Savings> calculateSavings(Warehouse warehouse, List<Delivery> deliveries) {
@@ -77,40 +81,24 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
         return savingsList;
     }
     
+    private Route findRouteContaining(List<Route> routes, Delivery delivery) {
+        for (Route route : routes) {
+            if (route.contains(delivery)) {
+                return route;
+            }
+        }
+        return null;
+    }
+    
     private boolean canMerge(Route route1, Route route2) {
-        return (route1.head == route2.tail) || (route1.tail == route2.head);
+        
+        return true;
     }
     
     private void mergeRoutes(Route route1, Route route2) {
-        if (route1.tail == route2.head) {
-            route1.tail = route2.tail;
-            route2.head.prev = route1.tail;
-            route1.tail.next = route2.head;
-        } else if (route1.head == route2.tail) {
-            route1.head = route2.head;
-            route2.tail.next = route1.head;
-            route1.head.prev = route2.tail;
+        for (Delivery delivery : route2.getDeliveries()) {
+            route1.addDelivery(delivery);
         }
-    }
-    
-    private void updateRouteMapping(Map<Delivery, Route> mapping, Route route1, Route route2) {
-        Route current = route2.head;
-        while (current != null) {
-            mapping.put(current.delivery, route1);
-            current = current.next;
-        }
-    }
-    
-    private List<Delivery> buildRouteFromWarehouse(Warehouse warehouse, Route route) {
-        List<Delivery> result = new ArrayList<>();
-        Route.Node current = route.head;
-        
-        while (current != null) {
-            result.add(current.delivery);
-            current = current.next;
-        }
-        
-        return result;
     }
     
     private static class Savings {
@@ -126,22 +114,26 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
     }
     
     private static class Route {
-        Node head;
-        Node tail;
+        private final List<Delivery> deliveries;
         
-        Route(Delivery delivery) {
-            this.head = new Node(delivery);
-            this.tail = this.head;
+        Route() {
+            this.deliveries = new ArrayList<>();
         }
         
-        static class Node {
-            final Delivery delivery;
-            Node prev;
-            Node next;
-            
-            Node(Delivery delivery) {
-                this.delivery = delivery;
-            }
+        void addDelivery(Delivery delivery) {
+            deliveries.add(delivery);
+        }
+        
+        boolean contains(Delivery delivery) {
+            return deliveries.contains(delivery);
+        }
+        
+        List<Delivery> getDeliveries() {
+            return new ArrayList<>(deliveries);
+        }
+        
+        int size() {
+            return deliveries.size();
         }
     }
 }
