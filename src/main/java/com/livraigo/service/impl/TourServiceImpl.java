@@ -85,7 +85,7 @@ public class TourServiceImpl implements TourService {
         
         tourValidator.validateTourConstraints(vehicle, deliveries);
         
-        Tour tour = tourMapper.toEntity(tourDTO, vehicle, warehouse);
+        Tour tour = tourMapper.toEntity(tourDTO);
         tour.setVehicle(vehicle);
         tour.setWarehouse(warehouse);
         tour.setDeliveries(deliveries);
@@ -102,7 +102,7 @@ public class TourServiceImpl implements TourService {
             throw new RuntimeException("Tour not found with id: " + id);
         }
         
-        Tour tour = tourMapper.toEntity(tourDTO, null, null);
+        Tour tour = tourMapper.toEntity(tourDTO);
         tour.setId(id);
         return tourRepository.save(tour);
     }
