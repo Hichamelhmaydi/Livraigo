@@ -1,37 +1,16 @@
 package com.livraigo.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-
 import com.livraigo.model.entity.enums.VehicleType;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.*;
 
-@ToString
-@Setter
-@Getter
+
 @Entity
 @Table(name = "vehicles")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Vehicle {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -78,4 +57,72 @@ public class Vehicle {
             this.available = true;
         }
     }
+        public Vehicle(){};
+
+        public Vehicle(String licensePlate, VehicleType type, Double maxWeight, Double maxVolume, Integer maxDeliveries,
+            Boolean available) {
+        this.licensePlate = licensePlate;
+        this.type = type;
+        this.maxWeight = maxWeight;
+        this.maxVolume = maxVolume;
+        this.maxDeliveries = maxDeliveries;
+        this.available = available;
+    }
+
+    public Long getId() {
+    return id;
+}
+
+public void setId(Long id) {
+    this.id = id;
+}
+
+public String getLicensePlate() {
+    return licensePlate;
+}
+
+public void setLicensePlate(String licensePlate) {
+    this.licensePlate = licensePlate;
+}
+
+public VehicleType getType() {
+    return type;
+}
+
+public void setType(VehicleType type) {
+    this.type = type;
+}
+
+public Double getMaxWeight() {
+    return maxWeight;
+}
+
+public void setMaxWeight(Double maxWeight) {
+    this.maxWeight = maxWeight;
+}
+
+public Double getMaxVolume() {
+    return maxVolume;
+}
+
+public void setMaxVolume(Double maxVolume) {
+    this.maxVolume = maxVolume;
+}
+
+public Integer getMaxDeliveries() {
+    return maxDeliveries;
+}
+
+public void setMaxDeliveries(Integer maxDeliveries) {
+    this.maxDeliveries = maxDeliveries;
+}
+
+public Boolean getAvailable() {
+    return available;
+}
+
+public void setAvailable(Boolean available) {
+    this.available = available;
+}
+
 }

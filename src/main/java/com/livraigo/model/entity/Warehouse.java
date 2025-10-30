@@ -1,33 +1,17 @@
 package com.livraigo.model.entity;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@ToString
-@Setter
-@Getter
 @Entity
 @Table(name = "warehouses")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Warehouse {
     
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,4 +33,73 @@ public class Warehouse {
     
     @Column(nullable = false)
     private LocalTime closingTime;
+
+        public Warehouse(){};
+
+        public Warehouse(String name, String address, Double latitude, Double longitude, LocalTime openingTime,
+            LocalTime closingTime) {
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.openingTime = openingTime;
+        this.closingTime = closingTime;
+    }
+
+public Long getId() {
+    return id;
+}
+
+public void setId(Long id) {
+    this.id = id;
+}
+
+public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public String getAddress() {
+    return address;
+}
+
+public void setAddress(String address) {
+    this.address = address;
+}
+
+public Double getLatitude() {
+    return latitude;
+}
+
+public void setLatitude(Double latitude) {
+    this.latitude = latitude;
+}
+
+public Double getLongitude() {
+    return longitude;
+}
+
+public void setLongitude(Double longitude) {
+    this.longitude = longitude;
+}
+
+public LocalTime getOpeningTime() {
+    return openingTime;
+}
+
+public void setOpeningTime(LocalTime openingTime) {
+    this.openingTime = openingTime;
+}
+
+public LocalTime getClosingTime() {
+    return closingTime;
+}
+
+public void setClosingTime(LocalTime closingTime) {
+    this.closingTime = closingTime;
+}
+
 }
