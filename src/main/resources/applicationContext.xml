@@ -12,7 +12,8 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- Scan for repositories -->
-    <jpa:repositories base-package="com.livraigo.repository"/>
+    <jpa:repositories base-package="com.livraigo.repository" entity-manager-factory-ref="entityManagerFactory" 
+                      transaction-manager-ref="transactionManager"/>
     
     <!-- Model Mapper -->
     <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
@@ -31,41 +32,37 @@
         <constructor-arg ref="distanceCalculator"/>
     </bean>
     
-    <!-- Repository Beans -->
-    <bean id="deliveryRepository" class="org.springframework.data.jpa.repository.support.SimpleJpaRepository">
-        <constructor-arg index="0" value="com.livraigo.model.entity.Delivery"/>
-        <constructor-arg index="1" ref="entityManagerFactory"/>
+    <!-- Mapper Beans -->
+    <bean id="deliveryMapper" class="com.livraigo.mapper.DeliveryMapper">
+        <constructor-arg ref="modelMapper"/>
     </bean>
     
-    <bean id="tourRepository" class="org.springframework.data.jpa.repository.support.SimpleJpaRepository">
-        <constructor-arg index="0" value="com.livraigo.model.entity.Tour"/>
-        <constructor-arg index="1" ref="entityManagerFactory"/>
+    <bean id="tourMapper" class="com.livraigo.mapper.TourMapper">
+        <constructor-arg ref="modelMapper"/>
     </bean>
     
-    <bean id="vehicleRepository" class="org.springframework.data.jpa.repository.support.SimpleJpaRepository">
-        <constructor-arg index="0" value="com.livraigo.model.entity.Vehicle"/>
-        <constructor-arg index="1" ref="entityManagerFactory"/>
+    <bean id="vehicleMapper" class="com.livraigo.mapper.VehicleMapper">
+        <constructor-arg ref="modelMapper"/>
     </bean>
     
-    <bean id="warehouseRepository" class="org.springframework.data.jpa.repository.support.SimpleJpaRepository">
-        <constructor-arg index="0" value="com.livraigo.model.entity.Warehouse"/>
-        <constructor-arg index="1" ref="entityManagerFactory"/>
+    <bean id="warehouseMapper" class="com.livraigo.mapper.WarehouseMapper">
+        <constructor-arg ref="modelMapper"/>
     </bean>
     
     <!-- Service Beans -->
     <bean id="deliveryService" class="com.livraigo.service.impl.DeliveryServiceImpl">
         <constructor-arg ref="deliveryRepository"/>
-        <constructor-arg ref="modelMapper"/>
+        <constructor-arg ref="deliveryMapper"/>
     </bean>
     
     <bean id="vehicleService" class="com.livraigo.service.impl.VehicleServiceImpl">
         <constructor-arg ref="vehicleRepository"/>
-        <constructor-arg ref="modelMapper"/>
+        <constructor-arg ref="vehicleMapper"/>
     </bean>
     
     <bean id="warehouseService" class="com.livraigo.service.impl.WarehouseServiceImpl">
         <constructor-arg ref="warehouseRepository"/>
-        <constructor-arg ref="modelMapper"/>
+        <constructor-arg ref="warehouseMapper"/>
     </bean>
     
     <bean id="tourService" class="com.livraigo.service.impl.TourServiceImpl">
@@ -76,10 +73,10 @@
         <constructor-arg ref="nearestNeighborOptimizer"/>
         <constructor-arg ref="clarkeWrightOptimizer"/>
         <constructor-arg ref="tourValidator"/>
-        <constructor-arg ref="modelMapper"/>
+        <constructor-arg ref="tourMapper"/>
     </bean>
     
-    <!-- Controller Beans -->
+    <!-- REST Controller Beans -->
     <bean id="deliveryController" class="com.livraigo.controller.DeliveryController">
         <constructor-arg ref="deliveryService"/>
     </bean>
@@ -97,6 +94,8 @@
     </bean>
     
     <!-- Web Controller Beans -->
+    <bean id="webHomeController" class="com.livraigo.controller.web.WebHomeController"/>
+    
     <bean id="webDeliveryController" class="com.livraigo.controller.web.WebDeliveryController">
         <constructor-arg ref="deliveryService"/>
     </bean>
@@ -111,5 +110,8 @@
     
     <bean id="webTourController" class="com.livraigo.controller.web.WebTourController">
         <constructor-arg ref="tourService"/>
+        <constructor-arg ref="vehicleService"/>
+        <constructor-arg ref="warehouseService"/>
+        <constructor-arg ref="deliveryService"/>
     </bean>
 </beans>

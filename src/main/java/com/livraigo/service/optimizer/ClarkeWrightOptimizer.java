@@ -30,10 +30,13 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
             return new ArrayList<>(deliveries);
         }
         
+        // Calculate savings
         List<Savings> savingsList = calculateSavings(warehouse, deliveries);
         
+        // Sort savings in descending order
         savingsList.sort((s1, s2) -> Double.compare(s2.savings, s1.savings));
         
+        // Initialize routes
         List<Route> routes = new ArrayList<>();
         for (Delivery delivery : deliveries) {
             Route route = new Route();
@@ -41,6 +44,7 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
             routes.add(route);
         }
         
+        // Merge routes based on savings
         for (Savings savings : savingsList) {
             Route route1 = findRouteContaining(routes, savings.delivery1);
             Route route2 = findRouteContaining(routes, savings.delivery2);
@@ -53,10 +57,12 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
             }
         }
         
+        // We should have one route left, get the deliveries in order
         if (routes.size() == 1) {
             return routes.get(0).getDeliveries();
         } else {
             logger.warn("Multiple routes found after optimization: {}", routes.size());
+            // Fallback: return all deliveries in original order
             return new ArrayList<>(deliveries);
         }
     }
@@ -91,7 +97,6 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
     }
     
     private boolean canMerge(Route route1, Route route2) {
-        
         return true;
     }
     
@@ -130,10 +135,6 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
         
         List<Delivery> getDeliveries() {
             return new ArrayList<>(deliveries);
-        }
-        
-        int size() {
-            return deliveries.size();
         }
     }
 }

@@ -30,6 +30,7 @@
     </style>
 </head>
 <body>
+<div th:fragment="layout">
     <!-- Navigation principale -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -121,12 +122,13 @@
             </nav>
 
             <!-- Contenu principal -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div th:replace="${content}"></div>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div th:insert="~{::content}"></div>
             </main>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>

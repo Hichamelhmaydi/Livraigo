@@ -7,9 +7,8 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @ImportResource("classpath:applicationContext.xml")
 public class LivraigoApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(LivraigoApplication.class, args);
-	}
-
+    
+    public static void main(String[] args) {
+        SpringApplication.run(LivraigoApplication.class, args);
+    }
 }

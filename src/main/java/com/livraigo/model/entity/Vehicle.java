@@ -2,15 +2,16 @@ package com.livraigo.model.entity;
 
 import com.livraigo.model.entity.enums.VehicleType;
 import lombok.*;
-
 import javax.persistence.*;
-
 
 @Entity
 @Table(name = "vehicles")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Vehicle {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -57,72 +58,61 @@ public class Vehicle {
             this.available = true;
         }
     }
-        public Vehicle(){};
-
-        public Vehicle(String licensePlate, VehicleType type, Double maxWeight, Double maxVolume, Integer maxDeliveries,
-            Boolean available) {
+    
+    // Getters et setters explicites
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+    
+    public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
+    }
+    
+    public VehicleType getType() {
+        return type;
+    }
+    
+    public void setType(VehicleType type) {
         this.type = type;
+    }
+    
+    public Double getMaxWeight() {
+        return maxWeight;
+    }
+    
+    public void setMaxWeight(Double maxWeight) {
         this.maxWeight = maxWeight;
+    }
+    
+    public Double getMaxVolume() {
+        return maxVolume;
+    }
+    
+    public void setMaxVolume(Double maxVolume) {
         this.maxVolume = maxVolume;
+    }
+    
+    public Integer getMaxDeliveries() {
+        return maxDeliveries;
+    }
+    
+    public void setMaxDeliveries(Integer maxDeliveries) {
         this.maxDeliveries = maxDeliveries;
+    }
+    
+    public Boolean getAvailable() {
+        return available;
+    }
+    
+    public void setAvailable(Boolean available) {
         this.available = available;
     }
-
-    public Long getId() {
-    return id;
-}
-
-public void setId(Long id) {
-    this.id = id;
-}
-
-public String getLicensePlate() {
-    return licensePlate;
-}
-
-public void setLicensePlate(String licensePlate) {
-    this.licensePlate = licensePlate;
-}
-
-public VehicleType getType() {
-    return type;
-}
-
-public void setType(VehicleType type) {
-    this.type = type;
-}
-
-public Double getMaxWeight() {
-    return maxWeight;
-}
-
-public void setMaxWeight(Double maxWeight) {
-    this.maxWeight = maxWeight;
-}
-
-public Double getMaxVolume() {
-    return maxVolume;
-}
-
-public void setMaxVolume(Double maxVolume) {
-    this.maxVolume = maxVolume;
-}
-
-public Integer getMaxDeliveries() {
-    return maxDeliveries;
-}
-
-public void setMaxDeliveries(Integer maxDeliveries) {
-    this.maxDeliveries = maxDeliveries;
-}
-
-public Boolean getAvailable() {
-    return available;
-}
-
-public void setAvailable(Boolean available) {
-    this.available = available;
-}
-
 }

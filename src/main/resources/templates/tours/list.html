@@ -103,60 +103,62 @@
             </div>
 
             <!-- Statistiques -->
-            <div class="row mt-4">
-                <div class="col-md-3">
-                    <div class="card text-white bg-primary">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 th:text="${tours.size()}">0</h4>
-                                    <p>Total tournées</p>
-                                </div>
-                                <i class="fas fa-route fa-2x"></i>
-                            </div>
-                        </div>
+<!-- Statistiques -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 th:text="${tours.size()}">0</h4>
+                        <p>Total tournées</p>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-info">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 th:text="${#lists.size(#lists.select(tours, #this.algorithm == T(com.livraigo.model.entity.enums.OptimizationAlgorithm).NEAREST_NEIGHBOR))}">0</h4>
-                                    <p>Nearest Neighbor</p>
-                                </div>
-                                <i class="fas fa-bolt fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-success">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 th:text="${#lists.size(#lists.select(tours, #this.algorithm == T(com.livraigo.model.entity.enums.OptimizationAlgorithm).CLARKE_WRIGHT))}">0</h4>
-                                    <p>Clarke & Wright</p>
-                                </div>
-                                <i class="fas fa-chart-line fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-warning">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 th:text="${#lists.stream(tours).mapToDouble(#this.deliveries.size).sum()}">0</h4>
-                                    <p>Livraisons totales</p>
-                                </div>
-                                <i class="fas fa-package fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
+                    <i class="fas fa-route fa-2x"></i>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 th:text="${#lists.size(tours.?[algorithm == T(com.livraigo.model.entity.enums.OptimizationAlgorithm).NEAREST_NEIGHBOR])}">0</h4>
+                        <p>Nearest Neighbor</p>
+                    </div>
+                    <i class="fas fa-bolt fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 th:text="${#lists.size(tours.?[algorithm == T(com.livraigo.model.entity.enums.OptimizationAlgorithm).CLARKE_WRIGHT])}">0</h4>
+                        <p>Clarke & Wright</p>
+                    </div>
+                    <i class="fas fa-chart-line fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4 th:text="${#lists.sum(tours.?[true].!deliveries.size())}">0</h4>
+                        <p>Livraisons totales</p>
+                    </div>
+                    <i class="fas fa-package fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
             <div class="mt-3">
                 <a th:href="@{/web}" class="btn btn-outline-secondary">
