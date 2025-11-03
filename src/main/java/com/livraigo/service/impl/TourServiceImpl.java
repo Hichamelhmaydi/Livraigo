@@ -68,33 +68,33 @@ public class TourServiceImpl implements TourService {
         return tour.orElseThrow(() -> new RuntimeException("Tour not found with id: " + id));
     }
     
-    @Override
-    public Tour save(TourRequestDTO tourDTO) {
-        logger.info("Saving new tour");
-        
-        Vehicle vehicle = vehicleRepository.findById(tourDTO.getVehicleId())
-                .orElseThrow(() -> new RuntimeException("Vehicle not found"));
-        
-        Warehouse warehouse = warehouseRepository.findById(tourDTO.getWarehouseId())
-                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
-        
-        List<Delivery> deliveries = tourDTO.getDeliveryIds().stream()
-                .map(deliveryId -> deliveryRepository.findById(deliveryId)
-                        .orElseThrow(() -> new RuntimeException("Delivery not found with id: " + deliveryId)))
-                .collect(Collectors.toList());
-        
-        tourValidator.validateTourConstraints(vehicle, deliveries);
-        
-        Tour tour = tourMapper.toEntity(tourDTO);
-        tour.setVehicle(vehicle);
-        tour.setWarehouse(warehouse);
-        tour.setDeliveries(deliveries);
-        
-        tour = optimizeTour(tour);
-        
-        return tourRepository.save(tour);
-    }
-    
+@Override
+public Tour save(TourRequestDTO tourDTO) {
+    logger.info("Saving new tour");
+
+    Vehicle vehicle = vehicleRepository.findById(tourDTO.getVehicleId())
+            .orElseThrow(() -> new RuntimeException("Vehicle not found"));
+    Warehouse warehouse = warehouseRepository.findById(tourDTO.getWarehouseId())
+            .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+
+    List<Delivery> deliveries = tourDTO.getDeliveryIds().stream()
+            .map(id -> deliveryRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Delivery not found with id: " + id)))
+            .collect(Collectors.toList());
+
+    tourValidator.validateTourConstraints(vehicle, deliveries);
+
+    Tour tour = tourMapper.toEntity(tourDTO);
+
+    tour.setVehicle(vehicle);
+    tour.setWarehouse(warehouse);
+    tour.setDeliveries(deliveries);
+
+    tour = optimizeTour(tour);
+
+    return tourRepository.save(tour);
+}
+
     @Override
     public Tour update(Long id, TourRequestDTO tourDTO) {
         logger.info("Updating tour with id: {}", id);
@@ -168,7 +168,6 @@ public class TourServiceImpl implements TourService {
     }
     
     private Double calculateTotalDistance(Tour tour) {
-        // Implémentation simplifiée - utiliserait DistanceCalculator en réalité
         return 100.0;
     }
 }
